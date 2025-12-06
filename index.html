@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Castle Meditation Retreat - A Journey Beyond</title>
+   <style>
+       * {
+           margin: 0;
+           padding: 0;
+           box-sizing: border-box;
+       }
+
+       body {
+           font-family: 'Georgia', serif;
+           overflow-x: hidden;
+           background: #000;
+           color: #fff;
+       }
+
+       /* Password Screen */
+       #password-screen {
+           position: fixed;
+           top: 0;
+           left: 0;
+           width: 100%;
+           height: 100%;
+           background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+           display: flex;
+           justify-content: center;
+           align-items: center;
+           z-index: 10000;
+           animation: gradientShift 10s ease infinite;
+           background-size: 300% 300%;
+       }
+
+       @keyframes gradientShift {
+           0% { background-position: 0% 50%; }
+           50% { background-position: 100% 50%; }
+           100% { background-position: 0% 50%; }
+       }
+
+       .password-container {
+           background: rgba(255, 255, 255, 0.1);
+           backdrop-filter: blur(10px);
+           padding: 60px 50px;
+           border-radius: 30px;
+           box-shadow: 0 20px 80px rgba(0, 0, 0, 0.3);
+           text-align: center;
+           border: 2px solid rgba(255, 255, 255, 0.2);
+           animation: float 6s ease-in-out infinite;
+       }
+
+       @keyframes float {
+           0%, 100% { transform: translateY(0px); }
+           50% { transform: translateY(-20px); }
+       }
+
+       .password-container h1 {
+           font-size: 2.5em;
+           margin-bottom: 20px;
+           color: #fff;
+           text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+           letter-spacing: 3px;
+       }
+
+       .password-container p {
+           font-size: 1.2em;
+           margin-bottom: 30px;
+           color: rgba(255, 255, 255, 0.9);
+       }
+
+       #password-input {
+           padding: 15px 25px;
+           font-size: 1.2em;
+           border: none;
+           border-radius: 50px;
+           background: rgba(255, 255, 255, 0.9);
+           width: 300px;
+           text-align: center;
+           outline: none;
+           transition: all 0.3s;
+       }
+
+       #password-input:focus {
+           transform: scale(1.05);
+           box-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+       }
+
+       #password-error {
+           color: #ff6b6b;
+           margin-top: 15px;
+           font-size: 1em;
+           min-height: 20px;
+           text-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+       }
+
+       .hidden {
+           display: none !important;
+       }
+
+       /* Animated Background */
+       #canvas-container {
+           position: fixed;
+           top: 0;
+           left: 0;
+           width: 100%;
+           height: 100%;
+           z-index: -1;
+       }
+
+       #bg-canvas {
+           width: 100%;
+           height: 100%;
+       }
+
+       /* Main Content */
+       #main-content {
+           position: relative;
+           z-index: 1;
+       }
+
+       /* Header */
+       header {
+           height: 100vh;
+           display: flex;
+           flex-direction: column;
+           justify-content: center;
+           align-items: center;
+           text-align: center;
+           position: relative;
+           background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.7));
+       }
+
+       .hero-title {
+           font-size: 5em;
+           margin-bottom: 20px;
+           text-shadow: 0 0 40px rgba(138, 43, 226, 0.8);
+           animation: glow 3s ease-in-out infinite;
+           letter-spacing: 5px;
+       }
+
+       @keyframes glow {
+           0%, 100% { text-shadow: 0 0 40px rgba(138, 43, 226, 0.8), 0 0 80px rgba(138, 43, 226, 0.5); }
+           50% { text-shadow: 0 0 60px rgba(138, 43, 226, 1), 0 0 100px rgba(138, 43, 226, 0.7); }
+       }
+
+       .hero-subtitle {
+           font-size: 2em;
+           color: #f093fb;
+           text-shadow: 0 0 20px rgba(240, 147, 251, 0.5);
+           margin-bottom: 40px;
+       }
+
+       .hero-description {
+           font-size: 1.3em;
+           max-width: 800px;
+           line-height: 1.8;
+           color: rgba(255, 255, 255, 0.9);
+           padding: 0 20px;
+       }
+
+       /* Floating Particles */
+       .particle {
+           position: absolute;
+           border-radius: 50%;
+           animation: floatParticle 20s infinite;
+           opacity: 0.6;
+       }
+
+       @keyframes floatParticle {
+           0%, 100% {
+               transform: translate(0, 0) rotate(0deg);
+           }
+           25% {
+               transform: translate(100px, -100px) rotate(90deg);
+           }
+           50% {
+               transform: translate(200px, 50px) rotate(180deg);
+           }
+           75% {
+               transform: translate(-100px, 100px) rotate(270deg);
+           }
+       }
+
+       /* Sections */
+       section {
+           padding: 100px 50px;
+           position: relative;
+           background: rgba(0, 0, 0, 0.5);
+           backdrop-filter: blur(5px);
+           margin: 50px 0;
+       }
+
+       section:nth-child(even) {
+           background: rgba(138, 43, 226, 0.1);
+       }
+
+       h2 {
+           font-size: 3.5em;
+           margin-bottom: 40px;
+           text-align: center;
+           text-shadow: 0 0 30px rgba(240, 147, 251, 0.6);
+           letter-spacing: 3px;
+       }
+
+       .content-grid {
+           display: grid;
+           grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+           gap: 40px;
+           max-width: 1200px;
+           margin: 0 auto;
+       }
+
+       .card {
+           background: rgba(255, 255, 255, 0.05);
+           padding: 40px;
+           border-radius: 20px;
+           border: 1px solid rgba(255, 255, 255, 0.1);
+           transition: all 0.3s;
+           backdrop-filter: blur(10px);
+       }
+
+       .card:hover {
+           transform: translateY(-10px);
+           box-shadow: 0 20px 60px rgba(138, 43, 226, 0.4);
+           border-color: rgba(240, 147, 251, 0.5);
+       }
+
+       .card h3 {
+           font-size: 2em;
+           margin-bottom: 20px;
+           color: #f093fb;
+       }
+
+       .card p {
+           line-height: 1.8;
+           font-size: 1.1em;
+           color: rgba(255, 255, 255, 0.8);
+       }
+
+       /* Venue Section */
+       .venue-highlight {
+           text-align: center;
+           max-width: 900px;
+           margin: 0 auto;
+           padding: 60px 40px;
+           background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2));
+           border-radius: 30px;
+           border: 2px solid rgba(240, 147, 251, 0.3);
+       }
+
+       .venue-highlight h3 {
+           font-size: 2.5em;
+           margin-bottom: 30px;
+           color: #f093fb;
+       }
+
+       .venue-highlight p {
+           font-size: 1.3em;
+           line-height: 2;
+           color: rgba(255, 255, 255, 0.9);
+       }
+
+       /* Activities List */
+       .activities-list {
+           list-style: none;
+           max-width: 800px;
+           margin: 40px auto;
+       }
+
+       .activities-list li {
+           padding: 20px 30px;
+           margin: 15px 0;
+           background: rgba(255, 255, 255, 0.05);
+           border-left: 4px solid #f093fb;
+           border-radius: 10px;
+           font-size: 1.2em;
+           transition: all 0.3s;
+       }
+
+       .activities-list li:hover {
+           background: rgba(240, 147, 251, 0.1);
+           transform: translateX(10px);
+       }
+
+       /* Footer */
+       footer {
+           text-align: center;
+           padding: 60px 20px;
+           background: rgba(0, 0, 0, 0.8);
+           font-size: 1.1em;
+       }
+
+       footer p {
+           color: rgba(255, 255, 255, 0.7);
+       }
+
+       /* Scroll Animation */
+       .fade-in {
+           opacity: 0;
+           transform: translateY(50px);
+           transition: opacity 1s, transform 1s;
+       }
+
+       .fade-in.visible {
+           opacity: 1;
+           transform: translateY(0);
+       }
+
+       /* Mandala Animation */
+       .mandala {
+           position: absolute;
+           width: 300px;
+           height: 300px;
+           border-radius: 50%;
+           border: 2px solid rgba(240, 147, 251, 0.3);
+           animation: rotateMandala 30s linear infinite;
+       }
+
+       @keyframes rotateMandala {
+           from { transform: rotate(0deg); }
+           to { transform: rotate(360deg); }
+       }
+
+       .mandala::before,
+       .mandala::after {
+           content: '';
+           position: absolute;
+           top: 50%;
+           left: 50%;
+           transform: translate(-50%, -50%);
+           border-radius: 50%;
+           border: 2px solid rgba(138, 43, 226, 0.2);
+       }
+
+       .mandala::before {
+           width: 200px;
+           height: 200px;
+       }
+
+       .mandala::after {
+           width: 100px;
+           height: 100px;
+       }
+   </style>
+</head>
+<body>
+   <!-- Password Protection Screen -->
+   <div id="password-screen">
+       <div class="password-container">
+           <h1>🧘 Welcome 🧘</h1>
+           <p>Enter the sacred word to continue your journey</p>
+           <input type="password" id="password-input" placeholder="Enter password" autocomplete="off">
+           <div id="password-error"></div>
+       </div>
+   </div>
+
+   <!-- Animated Background Canvas -->
+   <div id="canvas-container">
+       <canvas id="bg-canvas"></canvas>
+   </div>
+
+   <!-- Main Content (hidden until password is correct) -->
+   <div id="main-content" class="hidden">
+       <!-- Hero Section -->
+       <header>
+           <div class="mandala" style="top: 20%; left: 10%; opacity: 0.3;"></div>
+           <div class="mandala" style="bottom: 20%; right: 10%; opacity: 0.3;"></div>
+           
+           <h1 class="hero-title">Castle Meditation Retreat</h1>
+           <p class="hero-subtitle">A Journey Beyond the Ordinary</p>
+           <p class="hero-description">
+               Embark on a transformative spiritual journey in a majestic castle nestled in the heart 
+               of Southwest France. Experience the profound connection between meditation and consciousness 
+               expansion in a setting of timeless beauty and tranquility.
+           </p>
+       </header>
+
+       <!-- Venue Section -->
+       <section id="venue" class="fade-in">
+           <h2>✨ The Sacred Venue ✨</h2>
+           <div class="venue-highlight">
+               <h3>Château de Lumière</h3>
+               <p>
+                   Our retreat takes place in a stunning 17th-century castle in the Occitanie region of 
+                   Southwest France. Surrounded by rolling vineyards and ancient forests, this historic 
+                   château offers the perfect sanctuary for inner exploration.
+               </p>
+               <p style="margin-top: 20px;">
+                   <strong>Location:</strong> Nestled between Toulouse and Bordeaux, where the Pyrenees 
+                   mountains meet the Atlantic horizon. The castle features 20 private suites, meditation 
+                   halls with vaulted ceilings, sacred gardens, and panoramic terraces overlooking 
+                   50 acres of pristine nature.
+               </p>
+           </div>
+       </section>
+
+       <!-- Experience Section -->
+       <section id="experience" class="fade-in">
+           <h2>🌀 The Experience 🌀</h2>
+           <div class="content-grid">
+               <div class="card">
+                   <h3>Guided Meditation</h3>
+                   <p>
+                       Daily meditation sessions led by experienced practitioners from various 
+                       traditions including Vipassana, Transcendental, and Kundalini. Learn ancient 
+                       techniques to quiet the mind and expand consciousness.
+                   </p>
+               </div>
+               <div class="card">
+                   <h3>Sacred Ceremonies</h3>
+                   <p>
+                       Participate in traditional ceremonial experiences facilitated by trained guides. 
+                       Journey into the depths of your psyche in a safe, supported environment designed 
+                       for transformation and healing.
+                   </p>
+               </div>
+               <div class="card">
+                   <h3>Nature Integration</h3>
+                   <p>
+                       Connect with the ancient energy of the land through forest bathing, sunrise yoga, 
+                       and contemplative walks through lavender fields and oak groves that have stood 
+                       for centuries.
+                   </p>
+               </div>
+               <div class="card">
+                   <h3>Holistic Wellness</h3>
+                   <p>
+                       Nourish your body with organic, locally-sourced vegetarian cuisine. Enjoy sound 
+                       healing sessions, breathwork classes, and therapeutic bodywork from skilled 
+                       practitioners.
+                   </p>
+               </div>
+               <div class="card">
+                   <h3>Creative Expression</h3>
+                   <p>
+                       Explore your inner landscape through art therapy, ecstatic dance, and music. 
+                       Express the ineffable through various creative modalities in our dedicated 
+                       art studio.
+                   </p>
+               </div>
+               <div class="card">
+                   <h3>Integration Circles</h3>
+                   <p>
+                       Share your journey with fellow travelers in supportive group settings. Process 
+                       experiences and insights with compassionate facilitators trained in transpersonal 
+                       psychology.
+                   </p>
+               </div>
+           </div>
+       </section>
+
+       <!-- Schedule Section -->
+       <section id="schedule" class="fade-in">
+           <h2>📿 Daily Schedule 📿</h2>
+           <ul class="activities-list">
+               <li>6:30 AM - Sunrise Meditation & Pranayama</li>
+               <li>8:00 AM - Organic Breakfast & Silent Contemplation</li>
+               <li>10:00 AM - Morning Workshop (Yoga, Breathwork, or Movement)</li>
+               <li>12:30 PM - Nourishing Lunch & Rest Period</li>
+               <li>3:00 PM - Afternoon Session (Ceremony, Nature Walk, or Creative Arts)</li>
+               <li>6:00 PM - Dinner & Community Gathering</li>
+               <li>8:00 PM - Evening Meditation & Sound Healing</li>
+               <li>10:00 PM - Silent Hours Begin</li>
+           </ul>
+       </section>
+
+       <!-- Information Section -->
+       <section id="info" class="fade-in">
+           <h2>🔮 Essential Information 🔮</h2>
+           <div class="content-grid">
+               <div class="card">
+                   <h3>Duration</h3>
+                   <p>
+                       Our retreats run for 7 days (6 nights), providing ample time for deep 
+                       transformation while maintaining a sustainable pace for integration.
+                   </p>
+               </div>
+               <div class="card">
+                   <h3>Group Size</h3>
+                   <p>
+                       Limited to 20 participants to ensure intimate group dynamics and personalized 
+                       attention from facilitators. Early registration is recommended.
+                   </p>
+               </div>
+               <div class="card">
+                   <h3>What to Bring</h3>
+                   <p>
+                       Comfortable meditation cushion, journal, weather-appropriate clothing, 
+                       swimwear for the hot springs, and an open heart. All other amenities provided.
+                   </p>
+               </div>
+               <div class="card">
+                   <h3>Preparation</h3>
+                   <p>
+                       We recommend a simple diet and meditation practice for two weeks prior. 
+                       Detailed preparation guidelines will be sent upon registration.
+                   </p>
+               </div>
+           </div>
+       </section>
+
+       <!-- Footer -->
+       <footer>
+           <p>🕉️ May all beings find peace and liberation 🕉️</p>
+           <p style="margin-top: 20px; font-size: 0.9em;">
+               For inquiries and registration, connect with your inner wisdom
+           </p>
+       </footer>
+   </div>
+
+   <!-- JavaScript -->
+   <script>
+       // Password Protection
+       const PASSWORD = 'meditate';
+       const passwordScreen = document.getElementById('password-screen');
+       const passwordInput = document.getElementById('password-input');
+       const passwordError = document.getElementById('password-error');
+       const mainContent = document.getElementById('main-content');
+
+       passwordInput.addEventListener('keypress', function(e) {
+           if (e.key === 'Enter') {
+               checkPassword();
+           }
+       });
+
+       passwordInput.addEventListener('input', function() {
+           passwordError.textContent = '';
+       });
+
+       function checkPassword() {
+           const enteredPassword = passwordInput.value;
+           if (enteredPassword === PASSWORD) {
+               passwordScreen.style.animation = 'fadeOut 1s forwards';
+               setTimeout(() => {
+                   passwordScreen.classList.add('hidden');
+                   mainContent.classList.remove('hidden');
+                   initAnimations();
+               }, 1000);
+           } else {
+               passwordError.textContent = '✗ Incorrect password. Seek within...';
+               passwordInput.value = '';
+               passwordInput.style.animation = 'shake 0.5s';
+               setTimeout(() => {
+                   passwordInput.style.animation = '';
+               }, 500);
+           }
+       }
+
+       // Add shake animation
+       const style = document.createElement('style');
+       style.textContent = `
+           @keyframes shake {
+               0%, 100% { transform: translateX(0); }
+               25% { transform: translateX(-10px); }
+               75% { transform: translateX(10px); }
+           }
+           @keyframes fadeOut {
+               to { opacity: 0; transform: scale(1.1); }
+           }
+       `;
+       document.head.appendChild(style);
+
+       // Animated Canvas Background
+       function initAnimations() {
+           const canvas = document.getElementById('bg-canvas');
+           const ctx = canvas.getContext('2d');
+           
+           canvas.width = window.innerWidth;
+           canvas.height = window.innerHeight;
+
+           class Particle {
+               constructor() {
+                   this.x = Math.random() * canvas.width;
+                   this.y = Math.random() * canvas.height;
+                   this.vx = (Math.random() - 0.5) * 2;
+                   this.vy = (Math.random() - 0.5) * 2;
+                   this.radius = Math.random() * 3 + 1;
+                   this.color = `hsl(${Math.random() * 60 + 260}, 80%, 60%)`;
+                   this.life = Math.random() * 200 + 100;
+                   this.maxLife = this.life;
+               }
+
+               update() {
+                   this.x += this.vx;
+                   this.y += this.vy;
+                   this.life--;
+
+                   if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                   if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+
+                   // Add some randomness
+                   this.vx += (Math.random() - 0.5) * 0.1;
+                   this.vy += (Math.random() - 0.5) * 0.1;
+
+                   // Limit speed
+                   const speed = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
+                   if (speed > 3) {
+                       this.vx = (this.vx / speed) * 3;
+                       this.vy = (this.vy / speed) * 3;
+                   }
+               }
+
+               draw() {
+                   const opacity = this.life / this.maxLife;
+                   ctx.globalAlpha = opacity * 0.8;
+                   ctx.fillStyle = this.color;
+                   ctx.beginPath();
+                   ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                   ctx.fill();
+
+                   // Draw glow
+                   ctx.shadowBlur = 20;
+                   ctx.shadowColor = this.color;
+                   ctx.fill();
+                   ctx.shadowBlur = 0;
+               }
+
+               isDead() {
+                   return this.life <= 0;
+               }
+           }
+
+           let particles = [];
+           const maxParticles = 100;
+
+           function animate() {
+               ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+               ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+               // Add new particles
+               if (particles.length < maxParticles) {
+                   particles.push(new Particle());
+               }
+
+               // Update and draw particles
+               particles = particles.filter(p => !p.isDead());
+               particles.forEach(p => {
+                   p.update();
+                   p.draw();
+               });
+
+               // Draw connections
+               ctx.globalAlpha = 0.2;
+               particles.forEach((p1, i) => {
+                   particles.slice(i + 1).forEach(p2 => {
+                       const dx = p1.x - p2.x;
+                       const dy = p1.y - p2.y;
+                       const dist = Math.sqrt(dx * dx + dy * dy);
+                       
+                       if (dist < 150) {
+                           ctx.strokeStyle = p1.color;
+                           ctx.lineWidth = (150 - dist) / 150;
+                           ctx.beginPath();
+                           ctx.moveTo(p1.x, p1.y);
+                           ctx.lineTo(p2.x, p2.y);
+                           ctx.stroke();
+                       }
+                   });
+               });
+
+               ctx.globalAlpha = 1;
+               requestAnimationFrame(animate);
+           }
+
+           animate();
+
+           // Scroll animations
+           const observerOptions = {
+               threshold: 0.1,
+               rootMargin: '0px 0px -100px 0px'
+           };
+
+           const observer = new IntersectionObserver(function(entries) {
+               entries.forEach(entry => {
+                   if (entry.isIntersecting) {
+                       entry.target.classList.add('visible');
+                   }
+               });
+           }, observerOptions);
+
+           document.querySelectorAll('.fade-in').forEach(el => {
+               observer.observe(el);
+           });
+
+           // Add floating particles to header
+           const header = document.querySelector('header');
+           for (let i = 0; i < 20; i++) {
+               const particle = document.createElement('div');
+               particle.className = 'particle';
+               const size = Math.random() * 20 + 5;
+               particle.style.width = size + 'px';
+               particle.style.height = size + 'px';
+               particle.style.left = Math.random() * 100 + '%';
+               particle.style.top = Math.random() * 100 + '%';
+               particle.style.background = `radial-gradient(circle, ${['#667eea', '#764ba2', '#f093fb'][Math.floor(Math.random() * 3)]} 0%, transparent 70%)`;
+               particle.style.animationDelay = Math.random() * 20 + 's';
+               particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
+               header.appendChild(particle);
+           }
+
+           // Resize canvas on window resize
+           window.addEventListener('resize', () => {
+               canvas.width = window.innerWidth;
+               canvas.height = window.innerHeight;
+           });
+       }
+
+       // Focus on password input
+       passwordInput.focus();
+   </script>
+</body>
+</html>
+
